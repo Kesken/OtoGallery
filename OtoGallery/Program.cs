@@ -1,4 +1,11 @@
+using Business;
+using DataAccess;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDataAccessServices(builder.Configuration);
+builder.Services.AddBusinessServices();
+
 
 // Add services to the container.
 
