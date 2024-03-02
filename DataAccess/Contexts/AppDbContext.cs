@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace DataAccess.Context
+namespace DataAccess.Contexts
 {
     public class AppDbContext : DbContext
     {

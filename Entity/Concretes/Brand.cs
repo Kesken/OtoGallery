@@ -6,6 +6,8 @@ namespace Entities.Concretes
     {
         public string Name { get; set; }
 
+        public Car Car { get; set; }
+
         public Brand()
         {
 
