@@ -1,24 +1,23 @@
-﻿using DataAccess.Abstract;
-using DataAccess.Concrete;
+﻿using Business.Services.Repositories;
 using DataAccess.Contexts;
+using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DataAccess
+namespace DataAccess;
+
+public static class DataAccessServiceRegistiration
 {
-    public static class DataAccessServiceRegistiration
-    {
-        public static IServiceCollection AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlite(configuration.GetConnectionString("SqlCon"));
-            });
+	public static IServiceCollection AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.AddDbContext<AppDbContext>(options =>
+		{
+			options.UseSqlite(configuration.GetConnectionString("SqlCon"));
+		});
 
-            services.AddScoped<IBrandDal, BrandDal>();
+		services.AddScoped<IBrandRepository, BrandRepository>();
 
-            return services;
-        }
-    }
+		return services;
+	}
 }

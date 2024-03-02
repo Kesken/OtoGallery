@@ -1,24 +1,18 @@
-﻿using Core.Repositories.Abstracts;
-using Core.Repositories.Concretes;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Business
+namespace Business;
+
+public static class BusinessServiceRegistiration
 {
-    public static class BusinessServiceRegistiration
-    {
-        public static IServiceCollection AddBusinessServices(this IServiceCollection services)
-        {
+	public static IServiceCollection AddBusinessServices(this IServiceCollection services)
+	{
 
-            services.AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-            });
+		services.AddMediatR(cfg =>
+		{
+			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+		});
 
-            services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-            services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
-
-            return services;
-        }
-    }
+		return services;
+	}
 }

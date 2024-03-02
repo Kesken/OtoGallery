@@ -1,28 +1,47 @@
-﻿using Core.Entities.Abstracts;
+﻿using Core.Entities.Concretes;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
-namespace Core.Repositories.Abstracts
+namespace Core.Repositories.Abstracts;
+
+public interface IRepositoryBase<TEntity> : IQuery<TEntity>
+	where TEntity : EntityBase
 {
-    public interface IRepositoryBase<TEntity> where TEntity : class, IEntityBase, new()
-    {
-        Task<IList<TEntity>> GetAllAsync(
-            Expression<Func<TEntity, bool>>? filter = null, // Linq sorugularını yazabilmek için.
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, // Include edebilmeyi sagliyor.
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, // Getirdigin listeyi belli bir kosula gore siralamak istersen.
-            bool enableTracking = false);
+	Task<TEntity?> GetAsync(
+			Expression<Func<TEntity, bool>> predicate,
+			Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+			bool withDeleted = false,
+			bool enableTracking = true,
+			CancellationToken cancellationToken = default);
 
-        Task<TEntity> GetAsync(
-            Expression<Func<TEntity, bool>>? filter,// Linq sorugularını yazabilmek için.
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,// Include edebilmeyi sagliyor.
-            bool enableTracking = false);
+	Task<ICollection<TEntity>> GetListAsync(
+		Expression<Func<TEntity, bool>>? predicate = null,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+		Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+		bool withDeleted = false,
+		bool enableTracking = true,
+		CancellationToken cancellationToken = default);
 
-        IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool enableTracking = false);
 
-        Task AddAsync(TEntity entity);
-        Task AddRangeAsync(IList<TEntity> entities);
-        Task<TEntity> UpdateAsync(TEntity entity);
-        Task HardDeleteAsync(TEntity entity);
-        Task HardDeleteRangeAsync(IList<TEntity> entities);
-    }
+	Task<bool> AnyAsync(
+	   Expression<Func<TEntity, bool>>? predicate = null,
+	   bool withDeleted = false,
+	   bool enableTracking = true,
+	   CancellationToken cancellationToken = default);
+
+	Task<TEntity> AddAsync(TEntity entity);
+
+	Task<ICollection<TEntity>> AddRangeAsync(ICollection<TEntity> entities);
+
+	Task<TEntity> UpdateAsync(TEntity entity);
+
+	Task<ICollection<TEntity>> UpdateRangeAsync(ICollection<TEntity> entities);
+
+	Task<TEntity> DeleteAsync(TEntity entity, bool permanent = false);
+
+	Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities, bool permanent = false);
+
 }
+
+
+

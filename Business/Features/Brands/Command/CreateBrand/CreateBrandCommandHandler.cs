@@ -1,33 +1,32 @@
-﻿using DataAccess.Abstract;
+﻿using Business.Services.Repositories;
 using Entities.Concretes;
 using MediatR;
 
-namespace Business.Features.Brands.Command.CreateBrand
+namespace Business.Features.Brands.Command.CreateBrand;
+
+public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommandRequest, CreateBrandCommandResponse>
 {
-    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommandRequest, CreateBrandCommandResponse>
-    {
-        private readonly IBrandDal _brandDal;
+	private readonly IBrandRepository _brandRepository;
 
-        public CreateBrandCommandHandler(IBrandDal brandDal)
-        {
-            _brandDal = brandDal;
-        }
+	public CreateBrandCommandHandler(IBrandRepository brandRepository)
+	{
+		_brandRepository = brandRepository;
+	}
 
-        public async Task<CreateBrandCommandResponse> Handle(CreateBrandCommandRequest request, CancellationToken cancellationToken)
-        {
-            Brand brand = new();
-            brand.Name = request.Name;
+	public async Task<CreateBrandCommandResponse> Handle(CreateBrandCommandRequest request, CancellationToken cancellationToken)
+	{
+		Brand brand = new();
+		brand.Name = request.Name;
 
-            await _brandDal.AddAsync(brand);
+		await _brandRepository.AddAsync(brand);
 
-            CreateBrandCommandResponse response = new();
+		CreateBrandCommandResponse response = new();
 
-            response.Id = brand.Id;
-            response.Name = brand.Name;
-            response.CreatedDate = brand.CreatedDate;
+		response.Id = brand.Id;
+		response.Name = brand.Name;
+		response.CreatedDate = brand.CreatedDate;
 
-            return response;
+		return response;
 
-        }
-    }
+	}
 }
