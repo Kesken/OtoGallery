@@ -16,13 +16,10 @@ namespace DataAccess.EntityConfigurations
 
             builder.Property(x => x.Description).HasColumnName("Description").IsRequired();
 
-
-
             builder.HasOne(x => x.Color);
             builder.HasOne(x => x.Brand);
 
-
-
+            builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
         }
     }
 }

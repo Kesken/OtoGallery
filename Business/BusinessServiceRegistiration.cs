@@ -5,14 +5,16 @@ namespace Business;
 
 public static class BusinessServiceRegistiration
 {
-	public static IServiceCollection AddBusinessServices(this IServiceCollection services)
-	{
+    public static IServiceCollection AddBusinessServices(this IServiceCollection services)
+    {
 
-		services.AddMediatR(cfg =>
-		{
-			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-		});
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        });
 
-		return services;
-	}
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+        return services;
+    }
 }

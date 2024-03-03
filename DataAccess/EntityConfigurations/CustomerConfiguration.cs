@@ -13,6 +13,9 @@ namespace DataAccess.EntityConfigurations
             builder.Property(x => x.CompanyName).HasColumnName("CompanyName").IsRequired();
 
             builder.HasOne(x => x.User);
+
+            builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
+
         }
     }
 }

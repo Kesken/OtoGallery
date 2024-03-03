@@ -18,6 +18,8 @@ namespace DataAccess.EntityConfigurations
 
             builder.Property(x => x.Password).HasColumnName("Password").IsRequired().HasMaxLength(50);
 
+            builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
+
         }
     }
 }
