@@ -11,6 +11,9 @@ namespace DataAccess.EntityConfigurations
             builder.ToTable("Colors").HasKey(x => x.Id);
 
             builder.Property(x => x.Name).HasColumnName("Name").IsRequired();
+
+            builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
+
         }
     }
 }

@@ -19,6 +19,8 @@ namespace DataAccess.EntityConfigurations
             builder.HasOne(x => x.Car);
             builder.HasOne(x => x.Customer);
 
+            builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
+
         }
     }
 }
