@@ -12,7 +12,7 @@ namespace DataAccess.EntityConfigurations
 
             builder.Property(x => x.Name).HasColumnName("Name").IsRequired().HasMaxLength(50);
 
-            builder.HasOne(x => x.Car);
+            builder.HasMany(x => x.Cars);
 
             builder.HasQueryFilter(b => !b.DeletedDate.HasValue); // Silinme tarihi varsa verileri getirmeyecek.
         }

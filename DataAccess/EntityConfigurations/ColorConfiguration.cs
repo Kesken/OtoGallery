@@ -12,6 +12,10 @@ namespace DataAccess.EntityConfigurations
 
             builder.Property(x => x.Name).HasColumnName("Name").IsRequired();
 
+            builder.HasMany(x => x.CarColors)
+               .WithOne(cc => cc.Color)
+               .HasForeignKey(cc => cc.ColorId);
+
             builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
 
         }

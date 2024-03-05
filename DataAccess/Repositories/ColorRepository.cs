@@ -5,9 +5,9 @@ using Entities.Concretes;
 
 namespace DataAccess.Repositories;
 
-public class BrandRepository : RepositoryBase<Brand, AppDbContext>, IBrandRepository
+public class ColorRepository : RepositoryBase<Color, AppDbContext>, IColorRepository
 {
-    public BrandRepository(AppDbContext context) : base(context)
+    public ColorRepository(AppDbContext context) : base(context)
     {
     }
 }
