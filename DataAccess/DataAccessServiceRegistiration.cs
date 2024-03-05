@@ -9,15 +9,20 @@ namespace DataAccess;
 
 public static class DataAccessServiceRegistiration
 {
-	public static IServiceCollection AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)
-	{
-		services.AddDbContext<AppDbContext>(options =>
-		{
-			options.UseSqlite(configuration.GetConnectionString("SqlCon"));
-		});
+    public static IServiceCollection AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseSqlite(configuration.GetConnectionString("SqlCon"));
+        });
 
-		services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<IColorRepository, ColorRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IRentalRepository, RentalRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
-		return services;
-	}
+        return services;
+    }
 }

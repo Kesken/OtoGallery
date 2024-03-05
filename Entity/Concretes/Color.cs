@@ -6,6 +6,7 @@ namespace Entities.Concretes
     {
         public string Name { get; set; }
 
+        public virtual ICollection<CarColor> CarColors { get; set; } = new HashSet<CarColor>();
         public Color()
         {
 

@@ -5,9 +5,9 @@ using Entities.Concretes;
 
 namespace DataAccess.Repositories;
 
-public class BrandRepository : RepositoryBase<Brand, AppDbContext>, IBrandRepository
+public class RentalRepository : RepositoryBase<Rental, AppDbContext>, IRentalRepository
 {
-    public BrandRepository(AppDbContext context) : base(context)
+    public RentalRepository(AppDbContext context) : base(context)
     {
     }
 }

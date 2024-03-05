@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240303193223_initial")]
-    partial class initial
+    [Migration("20240304123927_a1")]
+    partial class a1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,9 +55,6 @@ namespace DataAccess.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ColorId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
@@ -82,12 +79,30 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId")
-                        .IsUnique();
+                    b.HasIndex("BrandId");
+
+                    b.ToTable("Cars", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.Concretes.CarColor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ColorId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
 
                     b.HasIndex("ColorId");
 
-                    b.ToTable("Cars", (string)null);
+                    b.ToTable("CarColors");
                 });
 
             modelBuilder.Entity("Entities.Concretes.Color", b =>
@@ -230,18 +245,29 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concretes.Car", b =>
                 {
                     b.HasOne("Entities.Concretes.Brand", "Brand")
-                        .WithOne("Car")
-                        .HasForeignKey("Entities.Concretes.Car", "BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Concretes.Color", "Color")
-                        .WithMany()
-                        .HasForeignKey("ColorId")
+                        .WithMany("Cars")
+                        .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("Entities.Concretes.CarColor", b =>
+                {
+                    b.HasOne("Entities.Concretes.Car", "Car")
+                        .WithMany("CarColors")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Concretes.Color", "Color")
+                        .WithMany("CarColors")
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
 
                     b.Navigation("Color");
                 });
@@ -278,8 +304,17 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Concretes.Brand", b =>
                 {
-                    b.Navigation("Car")
-                        .IsRequired();
+                    b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("Entities.Concretes.Car", b =>
+                {
+                    b.Navigation("CarColors");
+                });
+
+            modelBuilder.Entity("Entities.Concretes.Color", b =>
+                {
+                    b.Navigation("CarColors");
                 });
 #pragma warning restore 612, 618
         }
